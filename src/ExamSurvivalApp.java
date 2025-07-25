@@ -9,38 +9,33 @@ import java.util.Scanner;
 //    
 //   
 //    The implementation consists of three main components:
-//    1.  Task: A Node representing a single task, holding data and `next`/`prev` pointers.
+//    1.  Task: A Node representing a single task, holding data and 'next'/'prev' pointers.
 //    2.  TaskManagementSystem: The Doubly Linked List class. It manages the `head` of the list and contains
 //    all logic for list manipulation.
 //    3.  ExamSurvivalApp: The main class for handling user input and calling methods on the
 //    TaskManagementSystem instance.
 //   
-//    --- TIME COMPLEXITY (Pure DLL without Tail Pointer) ---
+//    TIME COMPLEXITY (I used only head).
 //    - Add Task At End('A'): O(n). To add a new task, the list must be traversed from the
 //    `head` to the end to find the last node.
 //    - Remove Task ('R'): O(n). The list must be traversed to find the task by its ID.
-//    - Print ('P'): O(n). A full traversal from head to end is required.
+//    - Print - 'P' : O(n). A full traversal from head to end is required.
 //    - Reverse Print ('REV'): O(n^2). Requires a traversal to find the last node, then
 //    another traversal backward to print.
 //   
 public class ExamSurvivalApp {
-
-    //   
     //    Represents a single task in our list. This is the "Node" of our ADT.
-    
     //    This class is the Doubly Linked List ADT implementation. It encapsulates
     //    all the logic for manipulating the list of tasks using only a head pointer.
-    //   
+    
     static class TaskManagementSystem {
         private Task head = null;
-
-         
         //    Adds a new task to the end of the list. This is now an O(n) operation.
           
         public void addTaskAtEnd(String id, String name, String type) {
             Task newNode = new Task(id, name, type);
             if (head == null) {
-                // The list is currentPointerly empty.
+                // The list is empty.
                 head = newNode;
             } else {
                 // Traverse to the end of the list.
