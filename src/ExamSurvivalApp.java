@@ -120,45 +120,55 @@ public class ExamSurvivalApp {
      //Main driver method. Handles input and orchestrates calls to the TaskManagementSystem.
      
      public static void main(String[] args) {
-        Scanner inputScanner = new Scanner(System.in);
-        TaskManagementSystem taskManager = new TaskManagementSystem();
-
-        int n = inputScanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        TaskManagementSystem taskList = new TaskManagementSystem();
+        
+        System.out.println("--- Exam Survival App ---");
+        System.out.print("Enter the number of operations: ");
+        int n = Integer.parseInt(scanner.nextLine());
 
         for (int i = 0; i < n; i++) {
-            String operation = inputScanner.next(); // Read the operation command token
+            System.out.printf("\nEnter operation %d of %d (e.g., 'A T01 Name Type', 'R T01', 'P', 'REV'):\n> ", i + 1, n);
+            String line = scanner.nextLine().trim();
+            if (line.isEmpty()) {
+                System.out.println("Operation cannot be empty. Please try again.");
+                i--; // Decrement to re-do this iteration
+                continue;
+            }
 
-            switch (operation) {
-                case "A": {
-                    String id = inputScanner.next();
-                    String name = inputScanner.next();
-                    String type = inputScanner.next();
-                    taskManager.addTaskAtEnd(id, name, type);
-                    break;
-                }
-                case "R": {
-                    String id = inputScanner.next();
-                    taskManager.removeTask(id);
-                    break;
-                }
-                case "P": {
-                    taskManager.print();
-                    break;
-                }
-                case "REV": {
-                    taskManager.printReverse();
-                    break;
-                }
-                default:
-                    System.out.println("Unknown operation: " + operation);
-                    // Consume the rest of the line to prevent subsequent errors
-                    if (inputScanner.hasNextLine()) {
-                       inputScanner.nextLine();
+            String[] parts = line.split(" ");
+
+            switch (parts[0]) {
+                case "A":
+                    if (parts.length != 4) {
+                        System.out.println("Invalid input for Add operation. Expected format: A <ID> <Name> <Type>");
+                        continue;
                     }
+                    taskList.addTaskAtEnd(parts[1], parts[2], parts[3]);
                     break;
+
+                case "R":
+                    if (parts.length != 2) {
+                        System.out.println("Invalid input for Remove operation. Expected format: R <ID>");
+                        continue;
+                    }
+                    taskList.removeTask(parts[1]);
+                    break;
+
+                case "P":
+                    taskList.print();
+                    break;
+
+                case "REV":
+                    taskList.printReverse();
+                    break;
+
+                default:
+                    System.out.println("Invalid operation. Please use 'A', 'R', 'P', or 'REV'.");
             }
         }
-        inputScanner.close();
+        System.out.println("\nAll operations completed. Exiting program.");
+        scanner.close();
     }
 
         
